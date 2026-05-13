@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Trees } from 'lucide-react'
 
 export default function AuthLayout({
@@ -7,10 +8,16 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="container mx-auto min-h-screen flex flex-col bg-background">
       <header className="p-4">
         <Link href="/" className="flex items-center gap-2">
-          <Trees className="h-8 w-8 text-primary" />
+          <Image
+            src="/images/logo/logo.png"
+            alt=""
+            width={74}
+            height={48}
+            className="object-contain"
+          />
           <span className="font-serif text-2xl font-medium text-foreground">Platinum Pitches</span>
         </Link>
       </header>

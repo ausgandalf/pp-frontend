@@ -2,7 +2,7 @@ import type { Park, ParkImage } from '@/lib/types'
 import parksMock from '@/mocks/parks.json'
 import { parkMatchesFacilityFilter } from '@/lib/park-facilities-filter'
 import { parseRegionParam } from '@/lib/parks-query'
-import { regionSlugToCanonical } from '@/lib/park-regions'
+import { regionSlugToCanonical, regionToSlug } from '@/lib/park-regions'
 
 import type { ParkListingImport } from '@/lib/park-listing-import'
 
@@ -92,6 +92,33 @@ type ParksJsonFile = {
   meta?: Partial<ParksListMeta>
 }
 
+/** Homepage “Popular destinations” cards; regions must match `listing_import.area_region` / `state` labels in mocks. */
+const HOMEPAGE_DESTINATION_REGIONS = ['South West', 'South East', 'Yorkshire', 'Scotland'] as const
+
+export type PopularDestinationSummary = {
+  name: string
+  slug: string
+  count: number
+}
+
+/** Region counts from bundled `mocks/parks.json` (same rows as local `getParks`). */
+export function getPopularDestinationSummaries(): PopularDestinationSummary[] {
+  const file = parksMock as ParksJsonFile
+  const parks = file.parks.map(mockRowToPark)
+
+  return HOMEPAGE_DESTINATION_REGIONS.map((name) => {
+    const slug = regionToSlug(name)
+    const count = parks.filter((p) => (p.region ?? p.state) === name).length
+    return { name, slug, count }
+  })
+}
+
+/** Total parks in bundled `mocks/parks.json` (for homepage stats). */
+export function getBundledParkTotal(): number {
+  const file = parksMock as ParksJsonFile
+  return file.parks.length
+}
+
 function mockRowToPark(row: MockParkRow): ParkListItem {
   const id = String(row.id)
   const imageUrl = row.featured_image || row.image_url
@@ -168,6 +195,8 @@ function sortParks(list: ParkListItem[], sort: string | undefined): ParkListItem
   const s = sort || 'featured'
   const copy = [...list]
   switch (s) {
+    case 'name':
+      return copy.sort((a, b) => a.name.localeCompare(b.name))
     case 'rating':
       return copy.sort((a, b) => b.average_rating - a.average_rating || a.name.localeCompare(b.name))
     case 'reviews':
@@ -284,4 +313,23 @@ export async function getParks(params: GetParksParams = {}): Promise<ParksListRe
       total_pages,
     },
   }
+}
+
+/**
+ * Featured parks for homepage carousels and promos. Same data source as {@link getParks}
+ * (local mock JSON when `PLATINUM_PITCHES_API_BASE_URL` is unset; otherwise the remote API).
+ */
+export async function getFeaturedParks(options: { limit?: number } = {}): Promise<ParkListItem[]> {
+  const limit = Math.max(1, options.limit ?? 6)
+  const { parks } = await getParks({
+    featured: 'true',
+    pageSize: limit,
+    page: 1,
+    sort: 'name',
+  })
+  // Remote API responses are not run through `applyFilters` / `sortParks`; normalize here.
+  return [...parks]
+    .filter((p) => p.is_featured)
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .slice(0, limit)
 }

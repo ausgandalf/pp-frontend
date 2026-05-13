@@ -21,15 +21,15 @@ const dmSerif = DM_Serif_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Platinum Pitches - Find Your Perfect RV & Caravan Park',
+    default: 'Platinum Pitches - Find Your Perfect Touring & Caravan Park',
     template: '%s | Platinum Pitches',
   },
-  description: 'Discover and book the best RV parks, caravan parks, and camping grounds across Australia. Find powered sites, facilities, and amenities for your next adventure.',
-  keywords: ['RV parks', 'caravan parks', 'camping', 'Australia', 'motorhome', 'campervan', 'holiday parks'],
+  description: 'Discover and book the best touring parks, caravan parks, and camping grounds across the United Kingdom. Find pitches, facilities, and amenities for your next adventure.',
+  keywords: ['caravan parks', 'touring parks', 'camping', 'United Kingdom', 'motorhome', 'campervan', 'holiday parks'],
   authors: [{ name: 'Platinum Pitches' }],
   openGraph: {
     type: 'website',
-    locale: 'en_AU',
+    locale: 'en_GB',
     siteName: 'Platinum Pitches',
   },
 }

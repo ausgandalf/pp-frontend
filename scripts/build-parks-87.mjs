@@ -1,7 +1,6 @@
 /**
- * Builds mocks/parks.json with 87 parks: enriches existing rows + appends AU rows
- * from the first names visible on the provided spreadsheet image (exact names are
- * best replaced by pasting a CSV export when available).
+ * Builds mocks/parks.json with 87 parks: enriches existing rows + appended legacy placeholder rows
+ * (exact names are best replaced by pasting a CSV export when available).
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -152,9 +151,9 @@ function enrichUkPark(p) {
 function buildAuPark(row, id) {
   const [name, city, state, desc] = row
   const slug = slugify(name)
-  const pc = `${2000 + (id % 799)}`
-  const lat = -33.86 + (id % 15) * 0.018
-  const lng = 151.1 + (id % 18) * 0.022
+  const pc = `EX${20 + (id % 9)} ${1 + (id % 4)}AA`
+  const lat = 50.2 + (id % 40) * 0.055
+  const lng = -5.4 - (id % 35) * 0.038
   const featured = id % 11 === 0
   const rating = Math.round((40 + (id * 7) % 9) * 0.1 * 10) / 10
   const reviews = 5 + (id * 17) % 120
@@ -165,7 +164,7 @@ function buildAuPark(row, id) {
     city,
     state,
     postcode: pc,
-    country: 'Australia',
+    country: 'United Kingdom',
     address: `${name}, ${city} ${state} ${pc}`,
     short_description: desc,
     featured_image: `/images/parks/featured/${slug}.jpg`,
@@ -173,15 +172,15 @@ function buildAuPark(row, id) {
     is_featured: featured,
     average_rating: rating,
     total_reviews: reviews,
-    facilities: touringFacilities(id, true),
+    facilities: touringFacilities(id, false),
     latitude: Math.round(lat * 1e6) / 1e6,
     longitude: Math.round(lng * 1e6) / 1e6,
-    phone: `+61 2 ${8000 + (id % 999)} ${1000 + (id % 8999)}`,
-    email: `visitors@${slug}.example.com.au`,
-    website: `https://www.${slug}.example.com.au`,
+    phone: `+44 (0)1693 ${String(100000 + id * 97).slice(0, 6)}`,
+    email: `visitors@${slug}.example.co.uk`,
+    website: `https://www.${slug}.example.co.uk`,
     opening_hours: OPENING_OPTIONS[id % OPENING_OPTIONS.length],
     additional_notes: NOTE_SNIPPETS[id % NOTE_SNIPPETS.length],
-    details_url: `https://maps.example.com.au/park/${slug}`,
+    details_url: `https://maps.example.co.uk/park/${slug}`,
     amenities: amenitiesFor(id),
   }
 }

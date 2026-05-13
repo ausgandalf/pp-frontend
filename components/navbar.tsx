@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
@@ -13,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Trees, Menu, X, User, LogOut, LayoutDashboard, Building2 } from 'lucide-react'
+import { Menu, X, User, LogOut, LayoutDashboard, Building2 } from 'lucide-react'
 import type { Profile } from '@/lib/types'
 
 export function Navbar() {
@@ -53,7 +54,13 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <Trees className="h-8 w-8 text-primary" />
+          <Image
+            src="/images/logo/logo.png"
+            alt=""
+            width={74}
+            height={48}
+            className="object-contain"
+          />
           <span className="font-serif text-xl font-medium text-foreground">Platinum Pitches</span>
         </Link>
 

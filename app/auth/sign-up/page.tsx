@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,11 +14,14 @@ import { Loader2, AlertCircle, Tent, Building2 } from 'lucide-react'
 
 type UserType = 'guest' | 'owner'
 
-export default function SignUpPage() {
+function SignUpForm() {
+  const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
-  const [userType, setUserType] = useState<UserType>('guest')
+  const [userType, setUserType] = useState<UserType>(() =>
+    searchParams.get('type') === 'owner' ? 'owner' : 'guest',
+  )
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
@@ -172,5 +175,29 @@ export default function SignUpPage() {
         </CardFooter>
       </form>
     </Card>
+  )
+}
+
+function SignUpFormFallback() {
+  return (
+    <Card className="border-border/50 shadow-lg">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-serif">Create an account</CardTitle>
+        <CardDescription>
+          Join Platinum Pitches to discover amazing parks or list your own
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex min-h-[280px] items-center justify-center py-8">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </CardContent>
+    </Card>
+  )
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<SignUpFormFallback />}>
+      <SignUpForm />
+    </Suspense>
   )
 }

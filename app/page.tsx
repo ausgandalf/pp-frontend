@@ -1,11 +1,14 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { SearchForm } from '@/components/search-form'
 import { ParkCard } from '@/components/park-card'
+import { FeaturedParksCarousel } from '@/components/featured-parks-carousel'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { createClient } from '@/lib/supabase/server'
+import { getFeaturedParks, getPopularDestinationSummaries, getBundledParkTotal } from '@/lib/api/parks'
+import type { LucideIcon } from 'lucide-react'
 import { 
   Trees, 
   MapPin, 
@@ -19,11 +22,18 @@ import {
   CheckCircle2
 } from 'lucide-react'
 
+const DESTINATION_ICONS: Record<string, LucideIcon> = {
+  'south-west': Waves,
+  'south-east': Trees,
+  'yorkshire': Mountain,
+  'scotland': Tent,
+}
+
 const features = [
   {
     icon: MapPin,
     title: 'Discover Amazing Locations',
-    description: 'Find the perfect park from hundreds of locations across Australia, from coastal paradises to outback adventures.',
+    description: 'Find the perfect park from hundreds of locations across the United Kingdom, from coastal escapes to countryside retreats.',
   },
   {
     icon: Shield,
@@ -37,63 +47,57 @@ const features = [
   },
 ]
 
-const destinations = [
-  { name: 'Queensland', icon: Waves, count: 145, slug: 'queensland' },
-  { name: 'Victoria', icon: Mountain, count: 98, slug: 'victoria' },
-  { name: 'New South Wales', icon: Trees, count: 132, slug: 'new-south-wales' },
-  { name: 'Western Australia', icon: Tent, count: 76, slug: 'western-australia' },
-]
-
 const testimonials = [
   {
     quote: "Platinum Pitches made finding the perfect spot for our family holiday so easy. The reviews were spot-on!",
     author: "Sarah M.",
-    location: "Sydney, NSW",
+    location: 'Cornwall, England',
     rating: 5,
   },
   {
     quote: "As a park owner, this platform has transformed how we manage bookings. Highly recommend!",
     author: "David R.",
-    location: "Park Owner, QLD",
+    location: 'Park Owner, Wales',
     rating: 5,
   },
   {
     quote: "We've used Platinum Pitches for three trips now. The booking process is seamless every time.",
     author: "Michelle & Tom",
-    location: "Melbourne, VIC",
+    location: 'Edinburgh, Scotland',
     rating: 5,
   },
 ]
 
 export default async function HomePage() {
-  const supabase = await createClient()
-  
-  // Fetch featured parks
-  const { data: featuredParks } = await supabase
-    .from('parks')
-    .select(`
-      *,
-      images:park_images(*),
-      park_facilities(*, facility:facilities(*))
-    `)
-    .eq('is_published', true)
-    .eq('is_featured', true)
-    .limit(4)
+  const featuredParks = await getFeaturedParks({ limit: 6 })
+  const destinations = getPopularDestinationSummaries()
+  const bundledParkTotal = getBundledParkTotal()
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-primary/10 to-background py-20 md:py-32">
-        <div className="container mx-auto px-4">
+      <section className="relative overflow-hidden py-20 md:py-32">
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <Image
+            src="/images/site/hero.jpg"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/92 via-background/58 to-background dark:from-background/95 dark:via-background/82 dark:to-background" />
+        </div>
+        <div className="relative z-10 container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-10">
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-foreground mb-6 text-balance">
               Find Your Perfect
               <span className="text-primary"> Camping Escape</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground text-pretty">
-              Discover and book amazing RV parks, caravan parks, and camping grounds across Australia. 
+              Discover and book amazing touring parks, caravan parks, and camping grounds across the United Kingdom. 
               Your next adventure starts here.
             </p>
           </div>
@@ -105,7 +109,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-center justify-center gap-6 mt-10 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-primary" />
-              <span>500+ Parks</span>
+              <span>{bundledParkTotal} parks listed</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-primary" />
@@ -118,6 +122,36 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Featured Parks */}
+      {featuredParks && featuredParks.length > 0 && (
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-2">
+                  Featured Parks
+                </h2>
+                <p className="text-muted-foreground">
+                  Hand-picked destinations for your next adventure
+                </p>
+              </div>
+              <Button variant="outline" asChild className="shrink-0 self-start sm:self-auto">
+                <Link href="/parks?featured=true">
+                  View all
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+
+            <FeaturedParksCarousel>
+              {featuredParks.map((park) => (
+                <ParkCard key={park.id} park={park} />
+              ))}
+            </FeaturedParksCarousel>
+          </div>
+        </section>
+      )}
 
       {/* Features Section */}
       <section className="py-20 bg-background">
@@ -147,45 +181,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Featured Parks Section */}
-      {featuredParks && featuredParks.length > 0 && (
-        <section className="py-20 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between mb-10">
-              <div>
-                <h2 className="font-serif text-3xl md:text-4xl font-medium text-foreground mb-2">
-                  Featured Parks
-                </h2>
-                <p className="text-muted-foreground">
-                  Hand-picked destinations for your next adventure
-                </p>
-              </div>
-              <Button variant="outline" asChild className="hidden md:flex">
-                <Link href="/parks?featured=true">
-                  View all
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-            
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {featuredParks.map((park) => (
-                <ParkCard key={park.id} park={park} />
-              ))}
-            </div>
-
-            <div className="mt-8 text-center md:hidden">
-              <Button variant="outline" asChild>
-                <Link href="/parks?featured=true">
-                  View all featured parks
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Popular Destinations */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
@@ -194,32 +189,35 @@ export default async function HomePage() {
               Popular Destinations
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Explore parks across Australia&apos;s most loved camping regions
+              Explore parks across the United Kingdom&apos;s most loved camping regions
             </p>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {destinations.map((dest) => (
+            {destinations.map((dest) => {
+              const Icon = DESTINATION_ICONS[dest.slug] ?? MapPin
+              return (
               <Link 
                 key={dest.slug} 
-                href={`/parks?state=${dest.slug}`}
+                href={`/parks?region=${dest.slug}`}
                 className="group"
               >
                 <Card className="border-border/50 overflow-hidden hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                      <dest.icon className="h-6 w-6 text-primary" />
+                      <Icon className="h-6 w-6 text-primary" />
                     </div>
                     <h3 className="font-medium text-lg text-foreground group-hover:text-primary transition-colors">
                       {dest.name}
                     </h3>
                     <p className="text-sm text-muted-foreground mt-1">
-                      {dest.count} parks
+                      {dest.count === 1 ? '1 park' : `${dest.count} parks`}
                     </p>
                   </CardContent>
                 </Card>
               </Link>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
@@ -268,7 +266,7 @@ export default async function HomePage() {
               Ready to Start Your Adventure?
             </h2>
             <p className="text-primary-foreground/80 mb-8 text-lg">
-              Join Platinum Pitches today and discover the best camping experiences Australia has to offer.
+              Join Platinum Pitches today and discover the best camping experiences the United Kingdom has to offer.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="secondary" asChild>

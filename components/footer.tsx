@@ -36,7 +36,7 @@ export function Footer() {
               <span className="font-serif text-xl font-medium text-foreground">Platinum Pitches</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              Discover and book the best RV parks and caravan grounds across Australia.
+              Discover and book the best touring parks and caravan grounds across the United Kingdom.
             </p>
           </div>
 
@@ -102,7 +102,7 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Platinum Pitches. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground">
-            Made with care for the Australian camping community
+            Made with care for the UK camping community
           </p>
         </div>
       </div>
