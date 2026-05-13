@@ -1,0 +1,308 @@
+{
+    "utilities": [
+        "Electric",
+        "Water",
+        "Grey waste",
+        "Black waste"
+    ],
+    "location_type": [
+        "Coastal",
+        "Rural",
+        "City",
+        "National park"
+    ],
+    "region": [
+        "South West",
+        "South East",
+        "East Midlands",
+        "West Midlands",
+        "North West",
+        "North East",
+        "Yorkshire",
+        "London",
+        "Scotland",
+        "Wales"
+    ],
+    "region_doc": [
+        "South West",
+        "South East",
+        "East of England",
+        "East Midlands",
+        "West Midlands",
+        "North West",
+        "North East",
+        "Yorkshire & The Humber",
+        "Greater London",
+        "Scotland",
+        "Highlands & Islands",
+        "North East Scotland",
+        "Central Scotland",
+        "South Scotland",
+        "Wales",
+        "North Wales",
+        "Mid Wales",
+        "South Wales"
+    ],
+    "national_park_type": [
+        "Lake District",
+        "Peak District",
+        "Yorkshire Dales",
+        "North York Moors",
+        "Northumberland",
+        "Dartmoor",
+        "Exmoor",
+        "New Forest",
+        "South Downs",
+        "The Broads",
+        "Loch Lomond & The Trossachs",
+        "Cairngorms",
+        "Snowdonia",
+        "Brecon Beacons",
+        "Pembrokeshire Coast"
+    ],
+    "stay": [
+        "Touring",
+        "Seasonal",
+        "Full time living",
+        "Open year round",
+        "Adults only"
+    ],
+    "park_rules": [
+        "Adults only",
+        "Family friendly",
+        "Open year round"
+    ],
+    "park_type": [
+        "Touring",
+        "Seasonal",
+        "Full-time living permitted"
+    ],
+    "pet_policy": [
+        "Allowed",
+        "Not allowed"
+    ],
+    "pitch_rating": [
+        "Platinum",
+        "Gold",
+        "Silver",
+        "Bronze"
+    ],
+    "pitch_surface": [
+        "Hardstanding",
+        "Gravel",
+        "Grass",
+        "Reinforced grass",
+        "Concrete pad",
+        "Tarmac",
+        "Mixed surface"
+    ],
+    "pitch_size": [
+        "Extra-length pitch",
+        "Extra-wide pitch",
+        "Awning space",
+        "Car parking space",
+        "Numeric fields (max length/width)"
+    ],
+    "hookup_type": [
+        "Electric",
+        "Water",
+        "Waste",
+        "TV"
+    ],
+    "electric_hookup": [
+        "10 amp",
+        "16 amp",
+        "32 amp",
+        "Metered",
+        "Included"
+    ],
+    "water_hookup": [
+        "Shared (no icon)",
+        "Personal (no icon)"
+    ],
+    "waste_hookup": [  
+        "Grey waste connection",
+        "Black waste connection",
+        "Drive-over waste"
+    ],
+    "tv_hookup": [
+        "Coax",
+        "Satellite"
+    ],
+    "ground_privacy": [
+        "Level pitch",
+        "Slight slope",
+        "Requires levelling blocks",
+        "Hedge divided",
+        "Private pitch",
+        "Open field layout"
+    ],
+    "parking": [
+        "Drive-through",
+        "Reverse-in"
+    ],
+    "access": [
+        "Wide internal roads",
+        "HGV accessible entrance",
+        "Easy Turnaround Space"
+    ],
+    "access_from_main_road": [
+        "Easy",
+        "Medium",
+        "Difficult"
+    ],
+    "vehicle_compatibility": [
+        "Fifth-wheel friendly",
+        "Twin axle friendly",
+        "XL motorhome friendly",
+        "Nearside door compatible",
+        "Offside door compatible"
+    ],
+    "essential_facilities": [
+        "Toilets",  
+        "Showers",
+        "Laundry",
+        "Washing up area",
+        "Drying room",
+        "Shop"
+    ],
+    "food_social_facilities": [
+        "Bar",
+        "Café",
+        "Restaurant",
+        "Takeaway",
+        "Entertainment"
+    ],
+    "health_wellbeing_facilities": [
+        "Indoor pool",  
+        "Outdoor pool",
+        "Gym",
+        "Hot tubs",
+        "Sauna",
+        "Spa",
+        "Beauty treatments"
+    ],
+    "pet_facilities": [
+        "Dog walking routes from site",
+        "Secure dog exercise area",
+        "Dog agility course",
+        "Dog washing area",
+        "Dog friendly pitches",
+        "Dog waste bins on site"
+    ],
+    "family_facilities": [
+        "Baby changing facilities",
+        "Parent & baby washroom"
+    ],
+    "activities": [
+        "Fishing lake",
+        "Daytime entertainment",
+        "Evening entertainment",
+        "Kids clubs",
+        "Indoor pool",
+        "Outdoor pool",
+        "Watersports",
+        "Gym",
+        "Golf",
+        "Tennis",
+        "Games room",
+        "Pool / snooker",
+        "Football",
+        "Canoeing / kayaking",
+        "Paddleboarding",
+        "Cycling",
+        "Archery",
+        "Playground",
+        "Soft play",
+        "Skatepark"
+    ],
+    "activities_on_site": [
+        "Cycle hire",   
+        "Cycling",
+        "Golf",
+        "Fishing",
+        "Tennis",
+        "Football",
+        "Playground",
+        "Canoeing / kayaking",
+        "Wild swimming",
+        "Gym",
+        "Gorge walking",
+        "Activity centre",
+        "Mountain biking",
+        "Quad biking",
+        "Horse riding",
+        "Sailing",
+        "Watersports",
+        "Climbing",
+        "Theme park",
+        "Zoo",
+        "Farm park",
+        "Nature reserve"
+    ],
+    "security": [
+        "Gated entry",
+        "CCTV",
+        "Barrier access",
+        "ANPR",
+        "24hr warden",
+        "Flood lighting",
+        "Fire extinguishers",
+        "Defibrillator"
+    ],
+    "accessibility": [
+        "Wheelchair friendly",  
+        "Accessible shower",
+        "Accessible toilet",
+        "Accessible pitches",
+        "Pitch close to accessible",
+        "bathrooms",
+        "Smooth paths",
+        "Well lit paths",
+        "Mobility scooter friendly",
+        "Hearing loop"
+    ],
+    "surroundings":[
+        "Beach access",
+        "Peaceful",
+        "Scenic views",
+        "Country location",
+        "City location",
+        "Dark skies area",
+        "Walkers paradise",
+        "Wildlife haven",
+        "Wild swimming nearby",
+        "Nearby pubs",
+        "Supermarket nearby",
+        "Events nearby",
+        "Attractions nearby",
+        "Lively town nearby"
+    ],
+    "energy_power": [
+        "Solar-powered facilities", 
+        "On-site renewable energy (solar / wind / biomass)",
+        "EV charging points",
+        "Energy-efficient lighting (LED site-wide)",
+        "Battery storage system"
+    ],
+    "waste_water": [
+        "Recycling facilities on-site",
+        "Separated waste streams",
+        "Grey water eco-system",
+        "Water refill station",
+        "Composting facilities"
+    ],
+    "environmental_standards": [
+        "Eco-certified park",
+        "Wildlife conservation area",
+        "Tree planting programme",
+        "Low light pollution",
+        "Dark skies compliant"
+    ],
+    "responsible_infrastructure": [
+        "Permeable pitch surfacing",
+        "Sustainable drainage system",
+        "Natural landscaping",
+        "Plastic reduction policy"
+    ]
+}

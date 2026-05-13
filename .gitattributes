@@ -1,0 +1,15 @@
+# Text: LF in Git object DB, CRLF in working tree on checkout (Windows-friendly).
+* text=auto eol=crlf
+
+# Never apply line-ending conversion to binaries
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
