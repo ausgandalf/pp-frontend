@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Navbar } from '@/components/navbar'
@@ -46,6 +47,18 @@ const features = [
     description: 'Every listed park meets our quality standards for facilities, cleanliness, and guest experience.',
   },
 ]
+
+function SearchFormHeroFallback() {
+  return (
+    <div className="rounded-xl bg-card p-2 shadow-lg" aria-hidden>
+      <div className="grid min-h-[3.5rem] grid-cols-1 gap-2 md:grid-cols-4">
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className="h-14 animate-pulse rounded-lg bg-muted/80" />
+        ))}
+      </div>
+    </div>
+  )
+}
 
 const testimonials = [
   {
@@ -103,7 +116,9 @@ export default async function HomePage() {
           </div>
           
           <div className="max-w-4xl mx-auto">
-            <SearchForm variant="hero" />
+            <Suspense fallback={<SearchFormHeroFallback />}>
+              <SearchForm variant="hero" />
+            </Suspense>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-6 mt-10 text-sm text-muted-foreground">
